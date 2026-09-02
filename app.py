@@ -1,4 +1,5 @@
 # import os
+# import shutil
 # import streamlit as st
 
 # # ----------------------------------------------------
@@ -189,6 +190,36 @@
 #                 )
 
 
+#     # ------------------------------------------------------
+#     # RESET PRO REPOSITORY
+#     # ------------------------------------------------------
+
+#     st.divider()
+
+#     if st.button("Reset Pro Repository", key="reset_pro"):
+
+#         st.caption(
+#             "Delete all PDFs, vectors and knowledge graph data from the Pro repository."
+#         )
+        
+#         from utils.vector_store import VectorStore
+
+#         pro_db = VectorStore("pro")
+#         deleted_chunks = pro_db.clear_collection()
+
+#         if os.path.exists("uploads/pro_side"):
+#             shutil.rmtree("uploads/pro_side")
+
+#         if os.path.exists("graphs/pro_graph"):
+#             shutil.rmtree("graphs/pro_graph")
+
+#         st.success(
+#             f"Pro repository reset. {deleted_chunks} chunks deleted."
+#         )
+
+#         st.rerun()    
+
+
 # # ==========================================================
 # # CON SIDE
 # # ==========================================================
@@ -356,6 +387,36 @@
 #                 )
 
 
+#     # ------------------------------------------------------
+#     # RESET CON REPOSITORY
+#     # ------------------------------------------------------
+
+    
+#     st.divider()
+
+#     if st.button("Reset Con Repository", key="reset_con"):
+        
+#         st.caption("Delete all PDFs, vectors and knowledge graph data from the Pro repository.")
+
+#         from utils.vector_store import VectorStore
+
+#         con_db = VectorStore("con")
+#         deleted_chunks = con_db.clear_collection()
+
+#         if os.path.exists("uploads/con_side"):
+#             shutil.rmtree("uploads/con_side")
+
+#         if os.path.exists("graphs/con_graph"):
+#             shutil.rmtree("graphs/con_graph")
+
+#         st.success(
+#             f"Con repository reset. {deleted_chunks} chunks deleted."
+#         )
+
+#         st.rerun()
+        
+
+
 # # ==========================================================
 # # SHOW BOTH KNOWLEDGE GRAPHS
 # # ==========================================================
@@ -443,9 +504,18 @@
 
 
 
+# ----------------------------------------------------
+# ----------------------------------------------------
+# ----------------------------------------------------
+# ----------------------------------------------------
+# ----------------------------------------------------
+
+
+
 import os
 import shutil
 import streamlit as st
+from pathlib import Path
 
 # ----------------------------------------------------
 # Streamlit Config
@@ -634,35 +704,43 @@ with left:
                     total_edges
                 )
 
-
-    # ------------------------------------------------------
-    # RESET PRO REPOSITORY
-    # ------------------------------------------------------
-
     st.divider()
 
-    if st.button("Reset Pro Repository", key="reset_pro"):
+    if st.button(
+        "Reset Pro Repository",
+        key="reset_pro"
+    ):
 
-        st.caption(
-            "Delete all PDFs, vectors and knowledge graph data from the Pro repository."
-        )
-        
         from utils.vector_store import VectorStore
 
         pro_db = VectorStore("pro")
-        deleted_chunks = pro_db.clear_collection()
 
-        if os.path.exists("uploads/pro_side"):
-            shutil.rmtree("uploads/pro_side")
-
-        if os.path.exists("graphs/pro_graph"):
-            shutil.rmtree("graphs/pro_graph")
-
-        st.success(
-            f"Pro repository reset. {deleted_chunks} chunks deleted."
+        deleted_chunks = (
+            pro_db.clear_collection()
         )
 
-        st.rerun()    
+        if os.path.exists(
+            "uploads/pro_side"
+        ):
+
+            shutil.rmtree(
+                "uploads/pro_side"
+            )
+
+        if os.path.exists(
+            "graphs/pro_graph"
+        ):
+
+            shutil.rmtree(
+                "graphs/pro_graph"
+            )
+
+        st.success(
+            f"Pro repository reset. "
+            f"{deleted_chunks} chunks deleted."
+        )
+
+        st.rerun()
 
 
 # ==========================================================
@@ -831,35 +909,43 @@ with right:
                     total_edges
                 )
 
-
-    # ------------------------------------------------------
-    # RESET CON REPOSITORY
-    # ------------------------------------------------------
-
-    
     st.divider()
 
-    if st.button("Reset Con Repository", key="reset_con"):
-        
-        st.caption("Delete all PDFs, vectors and knowledge graph data from the Pro repository.")
+    if st.button(
+        "Reset Con Repository",
+        key="reset_con"
+    ):
 
         from utils.vector_store import VectorStore
 
         con_db = VectorStore("con")
-        deleted_chunks = con_db.clear_collection()
 
-        if os.path.exists("uploads/con_side"):
-            shutil.rmtree("uploads/con_side")
+        deleted_chunks = (
+            con_db.clear_collection()
+        )
 
-        if os.path.exists("graphs/con_graph"):
-            shutil.rmtree("graphs/con_graph")
+        if os.path.exists(
+            "uploads/con_side"
+        ):
+
+            shutil.rmtree(
+                "uploads/con_side"
+            )
+
+        if os.path.exists(
+            "graphs/con_graph"
+        ):
+
+            shutil.rmtree(
+                "graphs/con_graph"
+            )
 
         st.success(
-            f"Con repository reset. {deleted_chunks} chunks deleted."
+            f"Con repository reset. "
+            f"{deleted_chunks} chunks deleted."
         )
 
         st.rerun()
-        
 
 
 # ==========================================================
@@ -879,13 +965,11 @@ with col1:
         "🟢 Pro Knowledge Graph"
     )
 
-    pro_graph_html = os.path.abspath(
+    pro_graph_html = Path(
         "graphs/pro_graph/graph.html"
     )
 
-    if os.path.exists(
-        pro_graph_html
-    ):
+    if pro_graph_html.exists():
 
         st.iframe(
             pro_graph_html,
@@ -907,13 +991,11 @@ with col2:
         "🔴 Con Knowledge Graph"
     )
 
-    con_graph_html = os.path.abspath(
+    con_graph_html = Path(
         "graphs/con_graph/graph.html"
     )
 
-    if os.path.exists(
-        con_graph_html
-    ):
+    if con_graph_html.exists():
 
         st.iframe(
             con_graph_html,
@@ -946,4 +1028,5 @@ st.page_link(
     label="Go to Debate",
     icon="⚖️"
 )
+
 
