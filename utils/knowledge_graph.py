@@ -279,28 +279,6 @@ class KnowledgeGraph:
 
         print(self.json_path)
     
-    # def visualize_graph(self):
-
-    #     net = Network(
-    #         height="750px",
-    #         width="100%",
-    #         directed=True,
-    #         notebook=False
-    #     )
-
-    #     net.from_nx(self.graph)
-        
-    #     # Improve appearance
-    #     net.repulsion(
-    #         node_distance=220,
-    #         spring_length=180
-    #     )
-
-    #     net.save_graph(self.html_path)
-
-    #     print("Graph visualization saved.")
-
-    #     return self.html_path
     def visualize_graph(self):
 
         net = Network(
